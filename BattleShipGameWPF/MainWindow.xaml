@@ -8,45 +8,92 @@
         Title="MainWindow" Height="768" Width="1024
         ">
     <Window.Resources>
-        <local:ColorConverter x:Key="FlatColorConverter"></local:ColorConverter>
-    </Window.Resources>
-    <Grid>
-        <Grid Width="450" Height="450">
-            <ListView x:Name="SeaFlat" Background="LightBlue" SelectionChanged="SeaFlat_SelectionChanged"
-                      ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                      ScrollViewer.VerticalScrollBarVisibility="Disabled">
-                <ListView.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <WrapPanel Margin="0,0,0,0" HorizontalAlignment="Right">
 
-                        </WrapPanel>
-                    </ItemsPanelTemplate>
-                </ListView.ItemsPanel>
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <Grid Width="40" Height="40" Margin="-6,0,0,0" Background="{Binding Stone, Converter={StaticResource FlatColorConverter}}">
+        <Style x:Key="itemTemplate" TargetType="{x:Type ListViewItem}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Grid Width="40" Height="40" Margin="4,3,0,0" Background="LightSeaGreen">
                             <TextBlock Text="{Binding Stone}"></TextBlock>
                         </Grid>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
-        </Grid>
-        <Grid>
-            <ListView x:Name="ShipList" Width="200" Height="200" HorizontalAlignment="Left"
-                      SelectionChanged="ShipList_SelectionChanged">
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+
+        <Style x:Key="AttackedTemplate" TargetType="{x:Type ListViewItem}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Grid Width="40" Height="40" Margin="4,3,0,0" Background="LightSeaGreen">
+                            <Image Source="unnamed.jpg" Width="40" Height="40" VerticalAlignment="Bottom" HorizontalAlignment="Center"></Image>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <local:BattleTemplate x:Key="styleForBattleBorad" ImageTemplate="{StaticResource AttackedTemplate}" TextTemplate="{StaticResource itemTemplate}"></local:BattleTemplate>
+        <local:ColorConverter x:Key="FlatColorConverter"></local:ColorConverter>
+        <local:AttackConverter x:Key="AttackConverter"></local:AttackConverter>
+    </Window.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="400"></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        
+        <StackPanel HorizontalAlignment="Center" Height="600">
+            <ListView x:Name="ShipList" Width="300" HorizontalAlignment="Left"
+                      SelectionChanged="ShipList_SelectionChanged" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <Grid Background="Aqua">
+                        <Grid Background="Aqua" Width="300" Height="20">
                             <TextBlock Text="{Binding}"></TextBlock>
                         </Grid>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
-        </Grid>
-        <StackPanel HorizontalAlignment="Left" VerticalAlignment="Bottom" Orientation="Horizontal">
-            <Button x:Name="xVertival" Width="100" Height="30" Content="Vertical" Click="xVertival_Click"></Button>
-            <Button x:Name="xHorizontal" Width="100" Height="30" Content="Horizontal" Click="xHorizontal_Click"></Button>
+            <StackPanel HorizontalAlignment="Left" VerticalAlignment="Bottom" Orientation="Horizontal">
+                <Button x:Name="xVertival" Width="150" Height="30" Content="Vertical" Click="xVertival_Click"></Button>
+                <Button x:Name="xHorizontal" Width="150" Height="30" Content="Horizontal" Click="xHorizontal_Click"></Button>
+            </StackPanel>
+            <Grid x:Name="PreviewPanel" Width="300" Height="300" Background="LightCyan" Grid.Column="0">
+                <Rectangle x:Name="shipModel" Fill="Black" Width="0" Height="0"></Rectangle>
+            </Grid>
         </StackPanel>
-        
+        <StackPanel Grid.Column="1" VerticalAlignment="Center">
+            <Grid x:Name="settingPanel" Width="450" Height="450" Grid.Column="1" Visibility="Visible">
+                <ListView x:Name="SeaFlat" Background="LightBlue" SelectionChanged="SeaFlat_SelectionChanged"
+                      ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                      ScrollViewer.VerticalScrollBarVisibility="Disabled">
+                    <ListView.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel Margin="0,0,0,0" HorizontalAlignment="Right"></WrapPanel>
+                        </ItemsPanelTemplate>
+                    </ListView.ItemsPanel>
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Width="40" Height="40" Margin="-6,0,0,0" Background="{Binding Stone, Converter={StaticResource FlatColorConverter}}">
+                                <TextBlock Text="{Binding Stone}"></TextBlock>
+                            </Grid>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </Grid>
+            <Grid x:Name="warPanel" Width="450" Height="450" Visibility="Collapsed"  >
+                <ListView x:Name="EmptySeaFlat" Background="LightGreen" SelectionChanged="EmptySeaFlat_SelectionChanged"
+                      ScrollViewer.HorizontalScrollBarVisibility="Disabled" ItemContainerStyleSelector="{StaticResource styleForBattleBorad}"
+                      ScrollViewer.VerticalScrollBarVisibility="Disabled">
+                    <ListView.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel HorizontalAlignment="Center"></WrapPanel>
+                        </ItemsPanelTemplate>
+                    </ListView.ItemsPanel>
+                </ListView>
+            </Grid>
+            <Button x:Name="xReadyBtn" Grid.Column="1" Click="xReadyBtn_Click" Width="200" Height="50"
+                VerticalAlignment="Bottom" Background="Orange" HorizontalAlignment="Center"></Button>
+        </StackPanel>
     </Grid>
 </Window>

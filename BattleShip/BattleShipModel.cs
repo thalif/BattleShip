@@ -145,7 +145,7 @@ namespace BattleShip
         {
             if(GetOrientation(ori).Equals(Orientation.H))
             {
-                int IndexCalc = ((index - 1) % 10);
+                int IndexCalc = ((index) % 10);
                 if (IndexCalc + (int)GetShip(ship) > 10)
                     return false;
 
