@@ -39,5 +39,28 @@ namespace BattleShipGameWPF
             throw new NotImplementedException();
         }
     }
+    public class AttackAsImageConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            char Get = (char)value;
+            if(Get == 'M')
+            {
+                return ".\\imgMiss.png";
+            }
+            else if(Get == '-')
+            {
+                return ".\\white.png";
+            }
+            else
+            {
+                return ".\\imgAttack.png";
+            }
+        }
 
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }

@@ -11,7 +11,14 @@ namespace BattleShip
     {
         char Default = '-';
         //Dictionary<int, char> Board;
-        public ObservableCollection<FlatStone> Board = new ObservableCollection<FlatStone>();
+        
+        public ObservableCollection<FlatStone> P1Board = new ObservableCollection<FlatStone>();
+        public ObservableCollection<FlatStone> P2Board = new ObservableCollection<FlatStone>();
+
+        public ObservableCollection<FlatStone> P1Land = new ObservableCollection<FlatStone>();
+        public ObservableCollection<FlatStone> P2Land = new ObservableCollection<FlatStone>();
+
+
 
         Dictionary<string, int> ShipStrength = new Dictionary<string, int>();
         public enum Ship
@@ -27,9 +34,7 @@ namespace BattleShip
             V
         }
 
-        
-
-        public void Attack(int position)
+        public ObservableCollection<FlatStone> Attack(ObservableCollection<FlatStone> Board, int position)
         {
             FlatStone c = Board[position];
 
@@ -61,52 +66,55 @@ namespace BattleShip
             {
                 Board[position] = new FlatStone('O');
             }
+            return Board;
         }
-        
-        public void PrintBoard()
-        {
-            int count = 0;
-            Console.ForegroundColor = System.ConsoleColor.White;
-            for (int i = 1; i <= 10; i++)
-            {
-                Console.Write("\t"+i.ToString());
-            }
-            Console.WriteLine("\n");
-            Console.Write(0);
-            int T = 1;
-            for (int i = 0; i < Board.Count; i++)
-            {
-                count++;
-                ConsoleColor(Board[i]);
-                Console.Write("\t" + Board[i]);
-                if (count == 10)
-                {
-                    count = 0;
-                    Console.WriteLine();
-                    Console.WriteLine();
-                    if(T < 10)
-                    {
-                        Console.ForegroundColor = System.ConsoleColor.White;
-                        Console.Write(T.ToString());
-                        T++;
-                    }
-                }
-            }
-            Console.WriteLine("\n\n");
-            foreach(KeyValuePair<string, int> item in ShipStrength)
-            {
-                if(item.Value != 0)
-                {
-                    Console.ForegroundColor = System.ConsoleColor.DarkGreen;
-                    Console.WriteLine(item.Key + "  - \t " + item.Value);
-                }
-                else
-                {
-                    Console.ForegroundColor = System.ConsoleColor.Red;
-                    Console.WriteLine(item.Key + "  - \t " + item.Value);
-                }
-            } 
-        }
+
+        #region Print function Works with Console
+        //public void PrintBoard()
+        //{
+        //    int count = 0;
+        //    Console.ForegroundColor = System.ConsoleColor.White;
+        //    for (int i = 1; i <= 10; i++)
+        //    {
+        //        Console.Write("\t"+i.ToString());
+        //    }
+        //    Console.WriteLine("\n");
+        //    Console.Write(0);
+        //    int T = 1;
+        //    for (int i = 0; i < Board.Count; i++)
+        //    {
+        //        count++;
+        //        ConsoleColor(Board[i]);
+        //        Console.Write("\t" + Board[i]);
+        //        if (count == 10)
+        //        {
+        //            count = 0;
+        //            Console.WriteLine();
+        //            Console.WriteLine();
+        //            if(T < 10)
+        //            {
+        //                Console.ForegroundColor = System.ConsoleColor.White;
+        //                Console.Write(T.ToString());
+        //                T++;
+        //            }
+        //        }
+        //    }
+        //    Console.WriteLine("\n\n");
+        //    foreach(KeyValuePair<string, int> item in ShipStrength)
+        //    {
+        //        if(item.Value != 0)
+        //        {
+        //            Console.ForegroundColor = System.ConsoleColor.DarkGreen;
+        //            Console.WriteLine(item.Key + "  - \t " + item.Value);
+        //        }
+        //        else
+        //        {
+        //            Console.ForegroundColor = System.ConsoleColor.Red;
+        //            Console.WriteLine(item.Key + "  - \t " + item.Value);
+        //        }
+        //    } 
+        //}
+        #endregion
         public void ConsoleColor(FlatStone c)
         {
             if (c == new FlatStone(Default))
@@ -119,12 +127,12 @@ namespace BattleShip
                 Console.ForegroundColor = System.ConsoleColor.Yellow;
         }
 
-        public void WriteBoard(string ship, int position, string ori)
+        public ObservableCollection<FlatStone> WriteBoard(ObservableCollection<FlatStone> Board, string ship, int position, string ori)
         {
             FlatStone shipOF = GetShip(GetShip(ship));
             if(GetOrientation(ori).Equals(Orientation.H))
             {
-                if (CheckShipSpace(position, ship, ori))
+                if (CheckShipSpace(Board,position, ship, ori))
                 {
                     for (int i = position; i < ((int)GetShip(ship) + position); i++)
                         Board[i] = shipOF;
@@ -132,16 +140,17 @@ namespace BattleShip
             }
             else if(GetOrientation(ori).Equals(Orientation.V))
             {
-                if(CheckShipSpace(position, ship, ori))
+                if(CheckShipSpace(Board,position, ship, ori))
                 {
                     for (int i = position; i < ((int)GetShip(ship) * 10) + position; i += 10)
                         Board[i] = shipOF;
                 }
             }
+            return Board;
         }
 
        
-        public bool CheckShipSpace(int index, string ship, string ori)
+        public bool CheckShipSpace(ObservableCollection<FlatStone> Board,int index, string ship, string ori)
         {
             if(GetOrientation(ori).Equals(Orientation.H))
             {
@@ -209,31 +218,14 @@ namespace BattleShip
             ShipStrength.Add("CARRIER", 5);
 
             for (int i = 0; i < 100; i++)
-                Board.Add(new FlatStone(Default));
-        }
-    }
-    public class FlatStone : BindableBase
-    {
-        char _stone;
-        public char Stone
-        {
-            get
             {
-                return _stone;
-            }
-            set
-            {
-                _stone = value;
-                RaisePropertyChanged("Stone");
-            }
-        }
-        public FlatStone(char _stones)
-        {
-            this.Stone = _stones;
-        }
-        public FlatStone()
-        {
+                P1Board.Add(new FlatStone('-'));
+                P2Board.Add(new FlatStone('-'));
 
+                P1Land.Add(new FlatStone('-'));
+                P2Land.Add(new FlatStone('-'));
+            }
         }
     }
+    
 }

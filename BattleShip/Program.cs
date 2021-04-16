@@ -17,12 +17,12 @@ namespace BattleShip
             //Game.WriteBoard(BattleShipModel.Ship.SUBMARINE, 37, BattleShipModel.Orientation.H);
             //Game.WriteBoard(BattleShipModel.Ship.DESTROYER, 42, BattleShipModel.Orientation.V);
 
-            Game.PrintBoard();
-            for (int i = 0; i < 100; i++)
-            {
-                Game.Attack(int.Parse(Console.ReadLine()) - 1);
-                Game.PrintBoard();
-            }
+            //Game.PrintBoard();
+            //for (int i = 0; i < 100; i++)
+            //{
+            //    Game.Attack(int.Parse(Console.ReadLine()) - 1);
+            //    Game.PrintBoard();
+            //}
             Console.ReadKey();
         }   
     }

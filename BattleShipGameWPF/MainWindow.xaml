@@ -5,8 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BattleShipGameWPF"
         mc:Ignorable="d"
-        Title="MainWindow" Height="768" Width="1024
-        ">
+        Title="MainWindow" Height="768" Width="1024">
     <Window.Resources>
 
         <Style x:Key="itemTemplate" TargetType="{x:Type ListViewItem}">
@@ -21,18 +20,19 @@
             </Setter>
         </Style>
 
-
+        <local:AttackAsImageConverter x:Key="AttackAsImage"></local:AttackAsImageConverter>
         <Style x:Key="AttackedTemplate" TargetType="{x:Type ListViewItem}">
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate>
                         <Grid Width="40" Height="40" Margin="4,3,0,0" Background="LightSeaGreen">
-                            <Image Source="unnamed.jpg" Width="40" Height="40" VerticalAlignment="Bottom" HorizontalAlignment="Center"></Image>
+                            <Image Source="{Binding Stone, Converter={StaticResource AttackAsImage}}" Width="40" Height="40" VerticalAlignment="Bottom" HorizontalAlignment="Center"></Image>
                         </Grid>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
         </Style>
+        
         <local:BattleTemplate x:Key="styleForBattleBorad" ImageTemplate="{StaticResource AttackedTemplate}" TextTemplate="{StaticResource itemTemplate}"></local:BattleTemplate>
         <local:ColorConverter x:Key="FlatColorConverter"></local:ColorConverter>
         <local:AttackConverter x:Key="AttackConverter"></local:AttackConverter>
@@ -42,8 +42,9 @@
             <ColumnDefinition Width="400"></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        
-        <StackPanel HorizontalAlignment="Center" Height="600">
+        <TextBlock x:Name="xPlayerLabel" Text="Player 1" Grid.Column="1" Margin="0,90,0,0"
+                   HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="20" FontWeight="SemiBold"></TextBlock>
+        <StackPanel HorizontalAlignment="Center" Height="600" Margin="0,100,0,0" >
             <ListView x:Name="ShipList" Width="300" HorizontalAlignment="Left"
                       SelectionChanged="ShipList_SelectionChanged" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                 <ListView.ItemTemplate>
@@ -81,19 +82,52 @@
                     </ListView.ItemTemplate>
                 </ListView>
             </Grid>
-            <Grid x:Name="warPanel" Width="450" Height="450" Visibility="Collapsed"  >
-                <ListView x:Name="EmptySeaFlat" Background="LightGreen" SelectionChanged="EmptySeaFlat_SelectionChanged"
-                      ScrollViewer.HorizontalScrollBarVisibility="Disabled" ItemContainerStyleSelector="{StaticResource styleForBattleBorad}"
-                      ScrollViewer.VerticalScrollBarVisibility="Disabled">
-                    <ListView.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <WrapPanel HorizontalAlignment="Center"></WrapPanel>
-                        </ItemsPanelTemplate>
-                    </ListView.ItemsPanel>
-                </ListView>
+            <Grid x:Name="warPanel"  Visibility="Collapsed"  >
+                
             </Grid>
-            <Button x:Name="xReadyBtn" Grid.Column="1" Click="xReadyBtn_Click" Width="200" Height="50"
+
+            <Button x:Name="xReadyBtn" Content="Ready" FontSize="20" FontWeight="Bold" Foreground="WhiteSmoke" Grid.Column="1" 
+                    Click="xReadyBtn_Click" Width="200" Height="50"
                 VerticalAlignment="Bottom" Background="Orange" HorizontalAlignment="Center"></Button>
         </StackPanel>
+
+        <Grid x:Name="xWarPanel" Background="White" Grid.ColumnSpan="2" Visibility="Collapsed">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <ListView x:Name="Player1Land" Width="450" Height="450" Grid.Column="0" Background="LightGreen" SelectionChanged="Player1Land_SelectionChanged"
+                      ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                      ScrollViewer.VerticalScrollBarVisibility="Disabled">
+                <ListView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel HorizontalAlignment="Center"></WrapPanel>
+                    </ItemsPanelTemplate>
+                </ListView.ItemsPanel>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Width="40" Height="40" Margin="-6,0,0,0" Background="{Binding Stone, Converter={StaticResource AttackConverter}}">
+                            <Image Source="{Binding Stone, Converter={StaticResource AttackAsImage}}"></Image>
+                        </Grid>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <ListView x:Name="Player2Land" Width="450" Height="450" Grid.Column="1" Background="LightGreen" SelectionChanged="Player2Land_SelectionChanged"
+                      ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                      ScrollViewer.VerticalScrollBarVisibility="Disabled">
+                <ListView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel HorizontalAlignment="Center"></WrapPanel>
+                    </ItemsPanelTemplate>
+                </ListView.ItemsPanel>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Width="40" Height="40" Margin="-6,0,0,0" Background="{Binding Stone, Converter={StaticResource AttackConverter}}">
+                            <Image Source="{Binding Stone, Converter={StaticResource AttackAsImage}}"></Image>
+                        </Grid>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </Grid>
     </Grid>
 </Window>
