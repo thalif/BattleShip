@@ -56,8 +56,8 @@
                 </ListView.ItemTemplate>
             </ListView>
             <StackPanel HorizontalAlignment="Left" VerticalAlignment="Bottom" Orientation="Horizontal">
-                <Button x:Name="xVertival" Width="150" Height="30" Content="Vertical" Click="xVertival_Click"></Button>
-                <Button x:Name="xHorizontal" Width="150" Height="30" Content="Horizontal" Click="xHorizontal_Click"></Button>
+                <Button x:Name="xVertival" Width="150" Height="30" Content="Vertical" Click="Vertival_Click"></Button>
+                <Button x:Name="xHorizontal" Width="150" Height="30" Content="Horizontal" Click="Horizontal_Click"></Button>
             </StackPanel>
             <Grid x:Name="PreviewPanel" Width="300" Height="300" Background="LightCyan" Grid.Column="0">
                 <Rectangle x:Name="shipModel" Fill="Black" Width="0" Height="0"></Rectangle>
@@ -87,7 +87,7 @@
             </Grid>
 
             <Button x:Name="xReadyBtn" Content="Ready" FontSize="20" FontWeight="Bold" Foreground="WhiteSmoke" Grid.Column="1" 
-                    Click="xReadyBtn_Click" Width="200" Height="50"
+                    Click="ReadyBtn_Click" Width="200" Height="50"
                 VerticalAlignment="Bottom" Background="Orange" HorizontalAlignment="Center"></Button>
         </StackPanel>
 

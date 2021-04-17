@@ -21,17 +21,12 @@ namespace BattleShipGameWPF
     /// </summary>
     public partial class MainWindow : Window
     {
-        ObservableCollection<FlatStone> FLATS = new ObservableCollection<FlatStone>();
-        //ObservableCollection<FlatStone> P1Attacks = new ObservableCollection<FlatStone>();
-        //ObservableCollection<FlatStone> P2Attacks = new ObservableCollection<FlatStone>();
+        BattleShipModel bs = new BattleShipModel();
 
         ObservableCollection<BattleShip.FlatStone> tempBoard = new ObservableCollection<BattleShip.FlatStone>();
-
-        BattleShipModel bs = new BattleShipModel();
-        //ObservableCollection<BattleShip.FlatStone> P1Board = new ObservableCollection<BattleShip.FlatStone>();
-        //ObservableCollection<BattleShip.FlatStone> P2Board = new ObservableCollection<BattleShip.FlatStone>();
-
         ObservableCollection<string> ShipLists = new ObservableCollection<string>();
+        
+
         string SelectedShip = string.Empty;
         string Orientaiton = string.Empty;
         bool FLAG = true;
@@ -58,6 +53,8 @@ namespace BattleShipGameWPF
             ShipList.ItemsSource = ShipLists;
             SeaFlat.ItemsSource = bs.P1Board;
         }
+
+
         void MakeShipPreview(string ship)
         {
             int width = 0;
@@ -101,7 +98,7 @@ namespace BattleShipGameWPF
         }
 
 
-        private void xVertival_Click(object sender, RoutedEventArgs e)
+        private void Vertival_Click(object sender, RoutedEventArgs e)
         {
             Orientaiton = "V";
             xVertival.IsEnabled = false;
@@ -114,7 +111,7 @@ namespace BattleShipGameWPF
             shipModel.Height = tempH;
 
         }
-        private void xHorizontal_Click(object sender, RoutedEventArgs e)
+        private void Horizontal_Click(object sender, RoutedEventArgs e)
         {
             Orientaiton = "H";
             xVertival.IsEnabled = true;
@@ -126,7 +123,7 @@ namespace BattleShipGameWPF
             shipModel.Width = tempV;
             shipModel.Height = tempH;
         }
-        private void xReadyBtn_Click(object sender, RoutedEventArgs e)
+        private void ReadyBtn_Click(object sender, RoutedEventArgs e)
         {
             if(PlayerFLAGG)
             {
@@ -165,37 +162,33 @@ namespace BattleShipGameWPF
                     FLAG = !FLAG;
                     if (PlayerFLAGG)
                     {
-                        if (bs.CheckShipSpace(bs.P1Board, SeaFlat.SelectedIndex, SelectedShip, Orientaiton))
+                        if (bs.CheckSpace4_SHIP1(SeaFlat.SelectedIndex, SelectedShip, Orientaiton))
                         {
-                            bs.WriteBoard(bs.P1Board, SelectedShip, SeaFlat.SelectedIndex, Orientaiton);
+                            bs.WriteBoard_4_SHIP1(SelectedShip, SeaFlat.SelectedIndex, Orientaiton);
+
                             ShipLists.Remove(SelectedShip);
                             SelectedShip = string.Empty;
                             Orientaiton = string.Empty;
                         }
                         else
-                        {
                             FLAG = true;
-                        }
                     }
                     else
                     {
-                        if (bs.CheckShipSpace(bs.P2Board, SeaFlat.SelectedIndex, SelectedShip, Orientaiton))
+                        if (bs.CheckSpace4_SHIP2(SeaFlat.SelectedIndex, SelectedShip, Orientaiton))
                         {
-                            bs.WriteBoard(bs.P2Board, SelectedShip, SeaFlat.SelectedIndex, Orientaiton);
+                            bs.WriteBoard_4_SHIP2(SelectedShip, SeaFlat.SelectedIndex, Orientaiton);
+
                             ShipLists.Remove(SelectedShip);
                             SelectedShip = string.Empty;
                             Orientaiton = string.Empty;
                         }
                         else
-                        {
                             FLAG = true;
-                        }
                     }
                 }
                 else
-                {
                     FLAG = !FLAG;
-                }
             }
             else
             {
@@ -233,14 +226,9 @@ namespace BattleShipGameWPF
             {
                 L1FLAGG = false;
                 int index = Player1Land.SelectedIndex;
-                if (bs.P1Board[index].Stone != '-')
-                {
-                    bs.P1Land[index].Stone = 'A';
-                }
-                else
-                {
-                    bs.P1Land[index].Stone = 'M';
-                }
+
+                bs.AttackP1Land(index);
+
                 Player1Land.ItemsSource = null;
                 Player1Land.ItemsSource = bs.P1Land;
                 L1FLAGG = true;
@@ -252,14 +240,9 @@ namespace BattleShipGameWPF
             {
                 L2FLAGG = false;
                 int index = Player2Land.SelectedIndex;
-                if (bs.P2Board[index].Stone != '-')
-                {
-                    bs.P2Land[index].Stone = 'A';
-                }
-                else
-                {
-                    bs.P2Land[index].Stone = 'M';
-                }
+
+                bs.AttackP2Land(index);
+
                 Player2Land.ItemsSource = null;
                 Player2Land.ItemsSource = bs.P2Land;
                 L2FLAGG = true;
