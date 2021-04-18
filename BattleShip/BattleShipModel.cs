@@ -9,8 +9,8 @@ namespace BattleShip
 {
     public class BattleShipModel : FlatStone
     {
-        char Default = '-';
-        
+        string Default = "-";
+
         public ObservableCollection<FlatStone> P1Board = new ObservableCollection<FlatStone>();
         public ObservableCollection<FlatStone> P2Board = new ObservableCollection<FlatStone>();
 
@@ -18,66 +18,6 @@ namespace BattleShip
         public ObservableCollection<FlatStone> P2Land = new ObservableCollection<FlatStone>();
 
         Dictionary<string, int> ShipStrength = new Dictionary<string, int>();
-
-        #region Print function Works with Console
-        //public void PrintBoard()
-        //{
-        //    int count = 0;
-        //    Console.ForegroundColor = System.ConsoleColor.White;
-        //    for (int i = 1; i <= 10; i++)
-        //    {
-        //        Console.Write("\t"+i.ToString());
-        //    }
-        //    Console.WriteLine("\n");
-        //    Console.Write(0);
-        //    int T = 1;
-        //    for (int i = 0; i < Board.Count; i++)
-        //    {
-        //        count++;
-        //        ConsoleColor(Board[i]);
-        //        Console.Write("\t" + Board[i]);
-        //        if (count == 10)
-        //        {
-        //            count = 0;
-        //            Console.WriteLine();
-        //            Console.WriteLine();
-        //            if(T < 10)
-        //            {
-        //                Console.ForegroundColor = System.ConsoleColor.White;
-        //                Console.Write(T.ToString());
-        //                T++;
-        //            }
-        //        }
-        //    }
-        //    Console.WriteLine("\n\n");
-        //    foreach(KeyValuePair<string, int> item in ShipStrength)
-        //    {
-        //        if(item.Value != 0)
-        //        {
-        //            Console.ForegroundColor = System.ConsoleColor.DarkGreen;
-        //            Console.WriteLine(item.Key + "  - \t " + item.Value);
-        //        }
-        //        else
-        //        {
-        //            Console.ForegroundColor = System.ConsoleColor.Red;
-        //            Console.WriteLine(item.Key + "  - \t " + item.Value);
-        //        }
-        //    } 
-        //}
-        #endregion
-        #region For Console 
-        public void ConsoleColor(FlatStone c)
-        {
-            if (c == new FlatStone(Default))
-                Console.ForegroundColor = System.ConsoleColor.White;
-            else if (c == new FlatStone('X'))
-                Console.ForegroundColor = System.ConsoleColor.Red;
-            else if (c == new FlatStone('O'))
-                Console.ForegroundColor = System.ConsoleColor.Blue;
-            else
-                Console.ForegroundColor = System.ConsoleColor.Yellow;
-        }
-        #endregion
 
         public enum Ship
         {
@@ -95,45 +35,50 @@ namespace BattleShip
 
         public void AttackP1Land(int index)
         {
-            if(P1Board[index].Stone != '-')
+            if (P1Board[index].Stone != "-")
             {
-                P1Land[index] = new FlatStone('A');
+                P1Land[index] = new FlatStone("A");
             }
             else
             {
-                P1Land[index] = new FlatStone('M');
+                P1Land[index] = new FlatStone("M");
             }
         }
         public void AttackP2Land(int index)
         {
-            if (P2Board[index].Stone != '-')
+            if (P2Board[index].Stone != "-")
             {
-                P2Land[index] = new FlatStone('A');
+                P2Land[index] = new FlatStone("A");
             }
             else
             {
-                P2Land[index] = new FlatStone('M');
+                P2Land[index] = new FlatStone("M");
             }
         }
 
 
         public void WriteBoard_4_SHIP1(string ship, int position, string ori)
         {
-            FlatStone shipOF = GetShipInitial(ship);
             if (GetOrientation(ori).Equals(Orientation.H))
             {
+                List<FlatStone> ToBind = GetShipImageH(ship);
                 if (CheckSpace4_SHIP1(position, ship, ori))
                 {
+                    int s = 0;
                     for (int i = position; i < ((int)GetShip(ship) + position); i++)
-                        P1Board[i] = shipOF;
+                        P1Board[i] = ToBind[s++];
                 }
             }
             else if (GetOrientation(ori).Equals(Orientation.V))
             {
+                List<FlatStone> ToBind = GetShipImageV(ship);
                 if (CheckSpace4_SHIP1(position, ship, ori))
                 {
+                    int s = 0;
                     for (int i = position; i < ((int)GetShip(ship) * 10) + position; i += 10)
-                        P1Board[i] = shipOF;
+                    {
+                        P1Board[i] = ToBind[s++];
+                    }
                 }
             }
         }
@@ -142,22 +87,89 @@ namespace BattleShip
             FlatStone shipOF = GetShipInitial(ship);
             if (GetOrientation(ori).Equals(Orientation.H))
             {
+                List<FlatStone> ToBind = GetShipImageH(ship);
                 if (CheckSpace4_SHIP2(position, ship, ori))
                 {
+                    int s = 0;
                     for (int i = position; i < ((int)GetShip(ship) + position); i++)
-                        P2Board[i] = shipOF;
+                        P2Board[i] = ToBind[s++];
                 }
             }
             else if (GetOrientation(ori).Equals(Orientation.V))
             {
+                List<FlatStone> ToBind = GetShipImageV(ship);
                 if (CheckSpace4_SHIP2(position, ship, ori))
                 {
+                    int s = 0;
                     for (int i = position; i < ((int)GetShip(ship) * 10) + position; i += 10)
-                        P2Board[i] = shipOF;
+                        P2Board[i] = ToBind[s++];
                 }
             }
         }
 
+
+        List<FlatStone> GetShipImageV(string ship)
+        {
+            List<FlatStone> toReturn = new List<FlatStone>();
+            if (ship == "SUBMARINE")
+            {
+                toReturn.Add(new FlatStone("S4V1"));
+                toReturn.Add(new FlatStone("S4V2"));
+                toReturn.Add(new FlatStone("S4V3"));
+                toReturn.Add(new FlatStone("S4V4"));
+            }
+            else if (ship == "DESTROYER")
+            {
+                toReturn.Add(new FlatStone("S2V1"));
+                toReturn.Add(new FlatStone("S2V2"));
+            }
+            else if (ship == "CARRIER")
+            {
+                toReturn.Add(new FlatStone("S5V1"));
+                toReturn.Add(new FlatStone("S5V2"));
+                toReturn.Add(new FlatStone("S5V3"));
+                toReturn.Add(new FlatStone("S5V4"));
+                toReturn.Add(new FlatStone("S5V5"));
+            }
+            else
+            {
+                toReturn.Add(new FlatStone("S3V1"));
+                toReturn.Add(new FlatStone("S3V2"));
+                toReturn.Add(new FlatStone("S3V3"));
+            }
+            return toReturn;
+        }
+        List<FlatStone> GetShipImageH(string ship)
+        {
+            List<FlatStone> toReturn = new List<FlatStone>();
+            if (ship == "SUBMARINE")
+            {
+                toReturn.Add(new FlatStone("S4H1"));
+                toReturn.Add(new FlatStone("S4H2"));
+                toReturn.Add(new FlatStone("S4H3"));
+                toReturn.Add(new FlatStone("S4H4"));
+            }
+            else if (ship == "DESTROYER")
+            {
+                toReturn.Add(new FlatStone("S2H1"));
+                toReturn.Add(new FlatStone("S2H2"));
+            }
+            else if (ship == "CARRIER")
+            {
+                toReturn.Add(new FlatStone("S5H1"));
+                toReturn.Add(new FlatStone("S5H2"));
+                toReturn.Add(new FlatStone("S5H3"));
+                toReturn.Add(new FlatStone("S5H4"));
+                toReturn.Add(new FlatStone("S5H5"));
+            }
+            else
+            {
+                toReturn.Add(new FlatStone("S3H1"));
+                toReturn.Add(new FlatStone("S3H2"));
+                toReturn.Add(new FlatStone("S3H3"));
+            }
+            return toReturn;
+        }
 
         public bool CheckSpace4_SHIP1(int index, string ship, string ori)
         {
@@ -174,7 +186,7 @@ namespace BattleShip
             else if (GetOrientation(ori).Equals(Orientation.V))
             {
                 int IndexCalc = index + (((int)GetShip(ship) - 1) * 10);
-                if (IndexCalc > 100)
+                if (IndexCalc > 99)
                     return false;
 
                 for (int i = index; i < ((int)GetShip(ship) * 10) + index; i += 10)
@@ -220,15 +232,15 @@ namespace BattleShip
         public FlatStone GetShipInitial(string ship)
         {
             if (ship == Ship.CARRIER.ToString())
-                return new FlatStone('C');
+                return new FlatStone("C");
             else if (ship == Ship.CRUISER.ToString())
-                return new FlatStone('R');
+                return new FlatStone("R");
             else if (ship == Ship.DESTROYER.ToString())
-                return new FlatStone('D');
+                return new FlatStone("D");
             else if (ship == Ship.SUBMARINE.ToString())
-                return new FlatStone('S');
+                return new FlatStone("S");
             else
-                return new FlatStone('C');
+                return new FlatStone("C");
         }
         public Ship GetShip(string ship)
         {
@@ -252,7 +264,7 @@ namespace BattleShip
             ShipStrength.Add("CRUISER", 3);
             ShipStrength.Add("CARRIER", 5);
 
-            FlatStone Default = new FlatStone('-');
+            FlatStone Default = new FlatStone("-");
             for (int i = 0; i < 100; i++)
             {
                 P1Board.Add(Default);

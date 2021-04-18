@@ -66,9 +66,9 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="BattleTemplate.cs" />
-    <Compile Include="BindableBase.cs" />
-    <Compile Include="ColorConverter.cs" />
+    <Compile Include="Tools\BattleTemplate.cs" />
+    <Compile Include="Tools\BindableBase.cs" />
+    <Compile Include="Tools\ColorConverter.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -101,11 +101,48 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="imgAttack.png" />
-    <Resource Include="imgMiss.png" />
+    <Resource Include="ShipImages\S4H1.png" />
+    <Resource Include="ShipImages\S4H2.png" />
+    <Resource Include="ShipImages\S4H3.png" />
+    <Resource Include="ShipImages\S4H4.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="white.png" />
+    <Resource Include="ShipImages\S3H1.png" />
+    <Resource Include="ShipImages\S3H2.png" />
+    <Resource Include="ShipImages\S3H3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="ShipImages\S2H1.png" />
+    <Resource Include="ShipImages\S2H2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="ShipImages\S5H1.png" />
+    <Resource Include="ShipImages\S5H2.png" />
+    <Resource Include="ShipImages\S5H3.png" />
+    <Resource Include="ShipImages\S5H4.png" />
+    <Resource Include="ShipImages\S5H5.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="ShipImages\S2V1.png" />
+    <Resource Include="ShipImages\S2V2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="ShipImages\S3V1.png" />
+    <Resource Include="ShipImages\S3V2.png" />
+    <Resource Include="ShipImages\S3V3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="ShipImages\S4V1.png" />
+    <Resource Include="ShipImages\S4V2.png" />
+    <Resource Include="ShipImages\S4V3.png" />
+    <Resource Include="ShipImages\S4V4.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="ShipImages\S5V1.png" />
+    <Resource Include="ShipImages\S5V2.png" />
+    <Resource Include="ShipImages\S5V3.png" />
+    <Resource Include="ShipImages\S5V4.png" />
+    <Resource Include="ShipImages\S5V5.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

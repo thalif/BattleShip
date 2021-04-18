@@ -24,4 +24,25 @@ namespace BattleShipGameWPF
                 return ImageTemplate;
         }
     }
+
+    public class ImageOrientationTemplate : DataTemplateSelector
+    {
+        public DataTemplate Horizontal { get; set; }
+        public DataTemplate Vertical { get; set; }
+
+        public override DataTemplate SelectTemplate(object item, DependencyObject container)
+        {
+            BattleShip.FlatStone tempObj = item as BattleShip.FlatStone;
+
+            if (tempObj.Orientations == 'H')
+            {
+                return Horizontal;
+            }
+            else
+            {
+                return Vertical;
+            }
+        }
+    }
+
 }

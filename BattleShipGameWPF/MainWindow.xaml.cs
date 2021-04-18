@@ -195,14 +195,14 @@ namespace BattleShipGameWPF
                 int index = SeaFlat.SelectedIndex;
                 if (PlayerFLAGG)
                 {
-                    if (bs.P1Board[index].Stone != '-')
+                    if (bs.P1Board[index].Stone != "-")
                         MessageBox.Show("Remove Ship");
                     else
                         MessageBox.Show("Do You want to remove");
                 }
                 else
                 {
-                    if (bs.P2Board[index].Stone != '-')
+                    if (bs.P2Board[index].Stone != "-")
                         MessageBox.Show("Remove Ship");
                     else
                         MessageBox.Show("Do You want to remove");

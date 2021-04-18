@@ -32,7 +32,23 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        
+
+
+        <local:AttackToShipConverter x:Key="AttackToShip"></local:AttackToShipConverter>
+        <DataTemplate x:Key="horizontalTemplate">
+            <Grid Width="40" Height="40" Margin="-9.4,-4,0,0">
+                <!--<TextBlock Text="{Binding Stone}"></TextBlock>-->
+                <Image Source="{Binding Stone, Converter={StaticResource AttackToShip}}"></Image>
+            </Grid>
+        </DataTemplate>
+        <DataTemplate x:Key="verticalTemplate">
+            <Grid Width="40" Height="40" Margin="-6,0,0,0">
+                <TextBlock Text="{Binding Stone}"></TextBlock>
+                <Image Source="{Binding Stone, Converter={StaticResource AttackToShip}}"></Image>
+            </Grid>
+        </DataTemplate>
+
+        <local:ImageOrientationTemplate x:Key="ImageTemplateSelector" Horizontal="{StaticResource horizontalTemplate}" Vertical="{StaticResource verticalTemplate}"></local:ImageOrientationTemplate>
         <local:BattleTemplate x:Key="styleForBattleBorad" ImageTemplate="{StaticResource AttackedTemplate}" TextTemplate="{StaticResource itemTemplate}"></local:BattleTemplate>
         <local:ColorConverter x:Key="FlatColorConverter"></local:ColorConverter>
         <local:AttackConverter x:Key="AttackConverter"></local:AttackConverter>
@@ -64,22 +80,16 @@
             </Grid>
         </StackPanel>
         <StackPanel Grid.Column="1" VerticalAlignment="Center">
-            <Grid x:Name="settingPanel" Width="450" Height="450" Grid.Column="1" Visibility="Visible">
+            <Grid x:Name="settingPanel" Width="410" Height="400" Grid.Column="1" Visibility="Visible">
                 <ListView x:Name="SeaFlat" Background="LightBlue" SelectionChanged="SeaFlat_SelectionChanged"
                       ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                      ScrollViewer.VerticalScrollBarVisibility="Disabled">
+                      ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                          ItemTemplateSelector="{StaticResource ImageTemplateSelector}">
                     <ListView.ItemsPanel>
                         <ItemsPanelTemplate>
-                            <WrapPanel Margin="0,0,0,0" HorizontalAlignment="Right"></WrapPanel>
+                            <WrapPanel Margin="0,0,0,0" HorizontalAlignment="Right" Background="LightGoldenrodYellow"></WrapPanel>
                         </ItemsPanelTemplate>
                     </ListView.ItemsPanel>
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <Grid Width="40" Height="40" Margin="-6,0,0,0" Background="{Binding Stone, Converter={StaticResource FlatColorConverter}}">
-                                <TextBlock Text="{Binding Stone}"></TextBlock>
-                            </Grid>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
                 </ListView>
             </Grid>
             <Grid x:Name="warPanel"  Visibility="Collapsed"  >
