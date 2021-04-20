@@ -35,13 +35,9 @@ namespace BattleShipGameWPF
             BattleShip.FlatStone tempObj = item as BattleShip.FlatStone;
 
             if (tempObj.Orientations == 'H')
-            {
                 return Horizontal;
-            }
             else
-            {
                 return Vertical;
-            }
         }
     }
 

@@ -144,5 +144,11 @@
     <Resource Include="ShipImages\S5V4.png" />
     <Resource Include="ShipImages\S5V5.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="imgAttack.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="miss.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -31,6 +31,11 @@ namespace BattleShipGameWPF
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
+            string Val = (string)value;
+            if(Val == "A")
+            {
+                return new SolidColorBrush(Colors.Red);
+            }
             return new SolidColorBrush(Colors.Beige);
         }
 
@@ -44,18 +49,12 @@ namespace BattleShipGameWPF
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             string Get = (string)value;
-            if(Get == "M")
-            {
-                return ".\\imgMiss.png";
-            }
-            else if(Get == "-")
-            {
-                return ".\\white.png";
-            }
-            else
-            {
+            if(Get == "A")
                 return ".\\imgAttack.png";
-            }
+            else if(Get == "M")
+                return ".\\miss.png";
+            else
+                return ".\\white.png";
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

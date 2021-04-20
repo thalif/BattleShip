@@ -17,6 +17,11 @@ namespace BattleShip
         public ObservableCollection<FlatStone> P1Land = new ObservableCollection<FlatStone>();
         public ObservableCollection<FlatStone> P2Land = new ObservableCollection<FlatStone>();
 
+
+        public ObservableCollection<string> P1Ships = new ObservableCollection<string>();
+        public ObservableCollection<string> P2Ships = new ObservableCollection<string>();
+
+
         Dictionary<string, int> ShipStrength = new Dictionary<string, int>();
 
         public enum Ship
@@ -36,24 +41,16 @@ namespace BattleShip
         public void AttackP1Land(int index)
         {
             if (P1Board[index].Stone != "-")
-            {
                 P1Land[index] = new FlatStone("A");
-            }
             else
-            {
                 P1Land[index] = new FlatStone("M");
-            }
         }
         public void AttackP2Land(int index)
         {
             if (P2Board[index].Stone != "-")
-            {
                 P2Land[index] = new FlatStone("A");
-            }
             else
-            {
                 P2Land[index] = new FlatStone("M");
-            }
         }
 
 
@@ -67,6 +64,8 @@ namespace BattleShip
                     int s = 0;
                     for (int i = position; i < ((int)GetShip(ship) + position); i++)
                         P1Board[i] = ToBind[s++];
+
+                    P1Ships.Remove(ship);
                 }
             }
             else if (GetOrientation(ori).Equals(Orientation.V))
@@ -76,9 +75,9 @@ namespace BattleShip
                 {
                     int s = 0;
                     for (int i = position; i < ((int)GetShip(ship) * 10) + position; i += 10)
-                    {
                         P1Board[i] = ToBind[s++];
-                    }
+
+                    P1Ships.Remove(ship);
                 }
             }
         }
@@ -93,6 +92,8 @@ namespace BattleShip
                     int s = 0;
                     for (int i = position; i < ((int)GetShip(ship) + position); i++)
                         P2Board[i] = ToBind[s++];
+
+                    P2Ships.Remove(ship);
                 }
             }
             else if (GetOrientation(ori).Equals(Orientation.V))
@@ -103,8 +104,37 @@ namespace BattleShip
                     int s = 0;
                     for (int i = position; i < ((int)GetShip(ship) * 10) + position; i += 10)
                         P2Board[i] = ToBind[s++];
+
+                    P2Ships.Remove(ship);
                 }
             }
+        }
+
+
+        public void RemoveFrom_Ship1(int index)
+        {
+            string shipOf = P1Board[index].Stone;
+            string Ship = shipOf.Substring(0, 2);
+
+            foreach(FlatStone item in P1Board)
+            {
+                if (item.Stone.Contains(Ship))
+                    item.Stone = "-";
+            }
+
+            P1Ships.Add(GetShipName4Init(Ship));
+        }
+        public void RemoveFrom_Ship2(int index)
+        {
+            string shipOf = P2Board[index].Stone;
+            string Ship = shipOf.Substring(0, 2);
+
+            foreach (FlatStone item in P2Board)
+            {
+                if (item.Stone.Contains(Ship))
+                    item.Stone = "-";
+            }
+            P2Ships.Add(GetShipName4Init(Ship));
         }
 
 
@@ -221,6 +251,17 @@ namespace BattleShip
         }
 
 
+        static string GetShipName4Init(string init)
+        {
+            if (init == "S2")
+                return Ship.DESTROYER.ToString();
+            else if (init == "S3")
+                return Ship.CRUISER.ToString();
+            else if (init == "S4")
+                return Ship.SUBMARINE.ToString();
+            else
+                return Ship.CARRIER.ToString();
+        }
         public Orientation GetOrientation(string Ori)
         {
             if (Ori == "H")
@@ -273,6 +314,13 @@ namespace BattleShip
                 P1Land.Add(Default);
                 P2Land.Add(Default);
             }
+            string[] ShipList = new string[] { "SUBMARINE", "DESTROYER", "CRUISER", "CARRIER" };
+            foreach(string item in ShipList)
+            {
+                P1Ships.Add(item);
+                P2Ships.Add(item);
+            }
+            
         }
     }
     

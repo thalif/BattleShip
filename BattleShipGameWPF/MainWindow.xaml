@@ -92,7 +92,7 @@
                     </ListView.ItemsPanel>
                 </ListView>
             </Grid>
-            <Grid x:Name="warPanel"  Visibility="Collapsed"  >
+            <Grid x:Name="warPanel"  Visibility="Visible" Background="Red">
                 
             </Grid>
 
@@ -106,9 +106,10 @@
                 <ColumnDefinition></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <ListView x:Name="Player1Land" Width="450" Height="450" Grid.Column="0" Background="LightGreen" SelectionChanged="Player1Land_SelectionChanged"
+            <ListView x:Name="Player1Land" Width="450" Height="450" Grid.Column="0" Background="LightGreen"
                       ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                      ScrollViewer.VerticalScrollBarVisibility="Disabled">
+                      ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                      SelectionChanged="Player1Land_SelectionChanged">
                 <ListView.ItemsPanel>
                     <ItemsPanelTemplate>
                         <WrapPanel HorizontalAlignment="Center"></WrapPanel>
@@ -116,15 +117,16 @@
                 </ListView.ItemsPanel>
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <Grid Width="40" Height="40" Margin="-6,0,0,0" Background="{Binding Stone, Converter={StaticResource AttackConverter}}">
+                        <Grid Width="40" Height="40" Margin="-6,0,0,0" Background="Beige">
                             <Image Source="{Binding Stone, Converter={StaticResource AttackAsImage}}"></Image>
                         </Grid>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
-            <ListView x:Name="Player2Land" Width="450" Height="450" Grid.Column="1" Background="LightGreen" SelectionChanged="Player2Land_SelectionChanged"
+            <ListView x:Name="Player2Land" Width="450" Height="450" Grid.Column="1" Background="LightGreen"
                       ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                      ScrollViewer.VerticalScrollBarVisibility="Disabled">
+                      ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                      SelectionChanged="Player2Land_SelectionChanged">
                 <ListView.ItemsPanel>
                     <ItemsPanelTemplate>
                         <WrapPanel HorizontalAlignment="Center"></WrapPanel>
@@ -132,7 +134,7 @@
                 </ListView.ItemsPanel>
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <Grid Width="40" Height="40" Margin="-6,0,0,0" Background="{Binding Stone, Converter={StaticResource AttackConverter}}">
+                        <Grid Width="40" Height="40" Margin="-6,0,0,0" Background="Beige">
                             <Image Source="{Binding Stone, Converter={StaticResource AttackAsImage}}"></Image>
                         </Grid>
                     </DataTemplate>

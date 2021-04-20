@@ -24,9 +24,7 @@ namespace BattleShipGameWPF
         BattleShipModel bs = new BattleShipModel();
 
         ObservableCollection<BattleShip.FlatStone> tempBoard = new ObservableCollection<BattleShip.FlatStone>();
-        ObservableCollection<string> ShipLists = new ObservableCollection<string>();
         
-
         string SelectedShip = string.Empty;
         string Orientaiton = string.Empty;
         bool FLAG = true;
@@ -45,12 +43,8 @@ namespace BattleShipGameWPF
         public void LoadLocalData()
         {
             tempBoard = bs.P1Board;
-            ShipLists.Add("CARRIER");
-            ShipLists.Add("CRUISER");
-            ShipLists.Add("SUBMARINE");
-            ShipLists.Add("DESTROYER");
-
-            ShipList.ItemsSource = ShipLists;
+            
+            ShipList.ItemsSource = bs.P1Ships;
             SeaFlat.ItemsSource = bs.P1Board;
         }
 
@@ -127,22 +121,10 @@ namespace BattleShipGameWPF
         {
             if(PlayerFLAGG)
             {
-                if (ShipLists.Count() > 0)
-                {
-
-                }
-                else
-                {
-                    xPlayerLabel.Text = "Player 2";
-                    PlayerFLAGG = false;
-                    ShipList.ItemsSource = ShipLists;
-
-                    ShipLists.Add("CARRIER");
-                    ShipLists.Add("CRUISER");
-                    ShipLists.Add("SUBMARINE");
-                    ShipLists.Add("DESTROYER");
-                    BindBoard(bs.P2Board);
-                }
+                xPlayerLabel.Text = "Player 2";
+                PlayerFLAGG = false;
+                ShipList.ItemsSource = bs.P2Ships;
+                BindBoard(bs.P2Board);
             }
             else
             {
@@ -166,7 +148,6 @@ namespace BattleShipGameWPF
                         {
                             bs.WriteBoard_4_SHIP1(SelectedShip, SeaFlat.SelectedIndex, Orientaiton);
 
-                            ShipLists.Remove(SelectedShip);
                             SelectedShip = string.Empty;
                             Orientaiton = string.Empty;
                         }
@@ -179,7 +160,6 @@ namespace BattleShipGameWPF
                         {
                             bs.WriteBoard_4_SHIP2(SelectedShip, SeaFlat.SelectedIndex, Orientaiton);
 
-                            ShipLists.Remove(SelectedShip);
                             SelectedShip = string.Empty;
                             Orientaiton = string.Empty;
                         }
@@ -193,19 +173,21 @@ namespace BattleShipGameWPF
             else
             {
                 int index = SeaFlat.SelectedIndex;
-                if (PlayerFLAGG)
+                if(FLAG)
                 {
-                    if (bs.P1Board[index].Stone != "-")
-                        MessageBox.Show("Remove Ship");
+                    FLAG = false;
+                    if (PlayerFLAGG)
+                    {
+                        if (bs.P1Board[index].Stone != "-")
+                            bs.RemoveFrom_Ship1(index);
+                    }
                     else
-                        MessageBox.Show("Do You want to remove");
-                }
-                else
-                {
-                    if (bs.P2Board[index].Stone != "-")
-                        MessageBox.Show("Remove Ship");
-                    else
-                        MessageBox.Show("Do You want to remove");
+                    {
+                        if (bs.P2Board[index].Stone != "-")
+                            bs.RemoveFrom_Ship2(index);
+                    }
+                    SeaFlat.SelectedIndex = -1;
+                    FLAG = true;
                 }
             }
         }
