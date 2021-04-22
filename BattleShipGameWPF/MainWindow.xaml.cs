@@ -43,7 +43,7 @@ namespace BattleShipGameWPF
         public void LoadLocalData()
         {
             tempBoard = bs.P1Board;
-            
+            xPlayerLabel.Text = "Player 1";
             ShipList.ItemsSource = bs.P1Ships;
             SeaFlat.ItemsSource = bs.P1Board;
         }
@@ -119,6 +119,9 @@ namespace BattleShipGameWPF
         }
         private void ReadyBtn_Click(object sender, RoutedEventArgs e)
         {
+            xP1ShipLife.ItemsSource = bs.P1ShipStrength;
+            xP2ShipLife.ItemsSource = bs.P2ShipStrength;
+
             if(PlayerFLAGG)
             {
                 xPlayerLabel.Text = "Player 2";
@@ -214,6 +217,7 @@ namespace BattleShipGameWPF
                 Player1Land.ItemsSource = null;
                 Player1Land.ItemsSource = bs.P1Land;
                 L1FLAGG = true;
+                GameState();
             }
         }
         private void Player2Land_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -228,7 +232,37 @@ namespace BattleShipGameWPF
                 Player2Land.ItemsSource = null;
                 Player2Land.ItemsSource = bs.P2Land;
                 L2FLAGG = true;
+                GameState();
             }
+        }
+        void GameState()
+        {
+            if (bs.P1Life <= 0)
+            {
+                xResultBackgroundPanel.Visibility = Visibility.Visible;
+                xResultPad.Visibility = Visibility.Visible;
+                xWarPanel.IsEnabled = false;
+                xResultTB.Text = "Player 2 Won";
+            }   
+            if (bs.P2Life <= 0)
+            {
+                xResultBackgroundPanel.Visibility = Visibility.Visible;
+                xResultPad.Visibility = Visibility.Visible;
+                xWarPanel.IsEnabled = false;
+                xResultTB.Text = "Player 1 Won";
+            }
+        }
+
+        private void xResultOk_Click(object sender, RoutedEventArgs e)
+        {
+            PlayerFLAGG = true;
+
+            xWarPanel.IsEnabled = true;
+            xWarPanel.Visibility = Visibility.Collapsed;
+            xResultBackgroundPanel.Visibility = Visibility.Collapsed;
+            xResultPad.Visibility = Visibility.Collapsed;
+            bs = new BattleShipModel();
+            LoadLocalData();
         }
     }
     public class FlatStone : BindableBase

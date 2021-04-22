@@ -21,6 +21,8 @@ namespace BattleShip
         public ObservableCollection<string> P1Ships = new ObservableCollection<string>();
         public ObservableCollection<string> P2Ships = new ObservableCollection<string>();
 
+        public ObservableCollection<int> P1ShipStrength = new ObservableCollection<int>();
+        public ObservableCollection<int> P2ShipStrength = new ObservableCollection<int>();
 
         Dictionary<string, int> ShipStrength = new Dictionary<string, int>();
 
@@ -40,15 +42,27 @@ namespace BattleShip
 
         public void AttackP1Land(int index)
         {
-            if (P1Board[index].Stone != "-")
-                P1Land[index] = new FlatStone("A");
+            if (P1Board[index].Stone[0] == 'S')
+            {
+                if(P1Land[index].Stone == "-")
+                {
+                    P1Land[index] = new FlatStone("A");
+                    P1ShipStrength.RemoveAt(0);
+                }
+            }
             else
                 P1Land[index] = new FlatStone("M");
         }
         public void AttackP2Land(int index)
         {
-            if (P2Board[index].Stone != "-")
-                P2Land[index] = new FlatStone("A");
+            if (P2Board[index].Stone[0] == 'S')
+            {
+                if(P2Land[index].Stone == "-")
+                {
+                    P2Land[index] = new FlatStone("A");
+                    P2ShipStrength.RemoveAt(0);
+                }
+            }
             else
                 P2Land[index] = new FlatStone("M");
         }
@@ -297,6 +311,36 @@ namespace BattleShip
             return Ship.CARRIER;
         }
 
+        static int TotalShipStrength
+        {
+            get
+            {
+                int AllStrength = 0;
+                AllStrength += (int)Ship.CARRIER;
+                AllStrength += (int)Ship.CRUISER;
+                AllStrength += (int)Ship.DESTROYER;
+                AllStrength += (int)Ship.SUBMARINE;
+
+                return AllStrength;
+            }
+        }
+
+        public int P1Life
+        {
+            get
+            {
+                return P1ShipStrength.Count;
+            }
+        }
+        public int P2Life
+        {
+            get
+            {
+                return P2ShipStrength.Count;
+            }
+        }
+
+
 
         public BattleShipModel()
         {
@@ -304,6 +348,13 @@ namespace BattleShip
             ShipStrength.Add("DESTROYER", 2);
             ShipStrength.Add("CRUISER", 3);
             ShipStrength.Add("CARRIER", 5);
+
+
+            for(int i = 0; i < TotalShipStrength; i++)
+            {
+                P1ShipStrength.Add(0);
+                P2ShipStrength.Add(0);
+            }
 
             FlatStone Default = new FlatStone("-");
             for (int i = 0; i < 100; i++)

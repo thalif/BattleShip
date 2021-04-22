@@ -34,6 +34,19 @@
         </Style>
 
 
+        <Style x:Key="lifeStyle" TargetType="{x:Type ListViewItem}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Grid Width="28.5" Height="20" Background="LightSeaGreen">
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+
+
         <local:AttackToShipConverter x:Key="AttackToShip"></local:AttackToShipConverter>
         <DataTemplate x:Key="horizontalTemplate">
             <Grid Width="40" Height="40" Margin="-9.4,-4,0,0">
@@ -82,7 +95,7 @@
         <StackPanel Grid.Column="1" VerticalAlignment="Center">
             <Grid x:Name="settingPanel" Width="410" Height="400" Grid.Column="1" Visibility="Visible">
                 <ListView x:Name="SeaFlat" Background="LightBlue" SelectionChanged="SeaFlat_SelectionChanged"
-                      ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                      ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
                       ScrollViewer.VerticalScrollBarVisibility="Disabled"
                           ItemTemplateSelector="{StaticResource ImageTemplateSelector}">
                     <ListView.ItemsPanel>
@@ -92,54 +105,86 @@
                     </ListView.ItemsPanel>
                 </ListView>
             </Grid>
-            <Grid x:Name="warPanel"  Visibility="Visible" Background="Red">
-                
-            </Grid>
 
             <Button x:Name="xReadyBtn" Content="Ready" FontSize="20" FontWeight="Bold" Foreground="WhiteSmoke" Grid.Column="1" 
                     Click="ReadyBtn_Click" Width="200" Height="50"
                 VerticalAlignment="Bottom" Background="Orange" HorizontalAlignment="Center"></Button>
         </StackPanel>
 
+
         <Grid x:Name="xWarPanel" Background="White" Grid.ColumnSpan="2" Visibility="Collapsed">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <ListView x:Name="Player1Land" Width="450" Height="450" Grid.Column="0" Background="LightGreen"
+            <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                <Border Width="400" Height="16" BorderThickness=".5" BorderBrush="Red">
+                    <ListView x:Name="xP1ShipLife" Width="400" Height="20" ItemContainerStyle="{StaticResource lifeStyle}"
+                              ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Disabled" 
+                              VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <ListView.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Horizontal"></StackPanel>
+                            </ItemsPanelTemplate>
+                        </ListView.ItemsPanel>
+                    </ListView>
+                </Border>
+                <ListView x:Name="Player1Land" Width="404" Height="400" Background="Beige"
                       ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                       ScrollViewer.VerticalScrollBarVisibility="Disabled"
                       SelectionChanged="Player1Land_SelectionChanged">
-                <ListView.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <WrapPanel HorizontalAlignment="Center"></WrapPanel>
-                    </ItemsPanelTemplate>
-                </ListView.ItemsPanel>
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <Grid Width="40" Height="40" Margin="-6,0,0,0" Background="Beige">
-                            <Image Source="{Binding Stone, Converter={StaticResource AttackAsImage}}"></Image>
-                        </Grid>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
-            <ListView x:Name="Player2Land" Width="450" Height="450" Grid.Column="1" Background="LightGreen"
+                    <ListView.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel HorizontalAlignment="Right"></WrapPanel>
+                        </ItemsPanelTemplate>
+                    </ListView.ItemsPanel>
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Width="40" Height="40" Margin="-10,-4,0,0" Background="Beige">
+                                <Image Source="{Binding Stone, Converter={StaticResource AttackAsImage}}"></Image>
+                            </Grid>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackPanel>
+
+            <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                <Border Width="400" Height="16" BorderThickness=".5" BorderBrush="Red">
+                    <ListView x:Name="xP2ShipLife" Width="400" Height="20" ItemContainerStyle="{StaticResource lifeStyle}"
+                              ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                              VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <ListView.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center"></StackPanel>
+                            </ItemsPanelTemplate>
+                        </ListView.ItemsPanel>
+                    </ListView>
+                </Border>
+                <ListView x:Name="Player2Land" Width="404" Height="400" Background="Beige"
                       ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                       ScrollViewer.VerticalScrollBarVisibility="Disabled"
                       SelectionChanged="Player2Land_SelectionChanged">
-                <ListView.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <WrapPanel HorizontalAlignment="Center"></WrapPanel>
-                    </ItemsPanelTemplate>
-                </ListView.ItemsPanel>
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <Grid Width="40" Height="40" Margin="-6,0,0,0" Background="Beige">
-                            <Image Source="{Binding Stone, Converter={StaticResource AttackAsImage}}"></Image>
-                        </Grid>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
+                    <ListView.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel HorizontalAlignment="Center"></WrapPanel>
+                        </ItemsPanelTemplate>
+                    </ListView.ItemsPanel>
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Width="40" Height="40" Margin="-10,-4,0,0" Background="Beige">
+                                <Image Source="{Binding Stone, Converter={StaticResource AttackAsImage}}"></Image>
+                            </Grid>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackPanel>
+        </Grid>
+        <Grid x:Name="xResultBackgroundPanel" Background="White" Grid.ColumnSpan="2" Opacity="0.4" Visibility="Collapsed">
+            
+        </Grid>
+        <Grid x:Name="xResultPad" Width="200" Height="100" Background="LightGreen" Grid.ColumnSpan="2" Visibility="Collapsed">
+            <TextBlock x:Name="xResultTB" FontSize="16" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
+            <Button x:Name="xResultOk" Width="100" Height="20" Content="Start New Game" Click="xResultOk_Click" VerticalAlignment="Bottom"></Button>
         </Grid>
     </Grid>
 </Window>
